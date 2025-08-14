@@ -1,0 +1,397 @@
+* {
+  box-sizing: border-box !important;
+}
+
+.my-seller-bg {
+  background: #f6f7fa !important;
+  min-height: 100vh !important;
+  width: 100vw !important;
+  margin: 0 !important;
+  padding: 0 20px !important;
+  overflow-x: hidden !important;
+  position: relative;
+}
+
+.my-seller-main {
+  max-width: 1500px !important;
+  width: 98vw !important;
+  margin: 24px auto !important;
+  background: #fff !important;
+  border-radius: 18px !important;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08) !important;
+  padding: 40px 36px !important;
+  min-height: 75vh !important;
+}
+
+.my-seller-title {
+  font-size: 2.4rem !important;
+  font-weight: 700 !important;
+  margin-bottom: 32px !important;
+  color: #ff7e3f !important;
+  text-align: center !important;
+  letter-spacing: -1px !important;
+}
+
+.my-seller-nav {
+  display: flex !important;
+  justify-content: center !important;
+  gap: 24px !important;
+  margin-bottom: 36px !important;
+}
+
+.my-seller-add-btn {
+  background: linear-gradient(90deg, #ff7e3f 60%, #ff9a5c 100%) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 12px !important;
+  padding: 16px 36px !important;
+  font-size: 1.15rem !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  box-shadow: 0 4px 15px rgba(255, 126, 63, 0.15) !important;
+}
+.my-seller-add-btn:hover {
+  background: linear-gradient(90deg, #ff9a5c 60%, #ff7e3f 100%) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 24px rgba(255, 126, 63, 0.18) !important;
+}
+
+.my-seller-tabs {
+  display: flex !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  margin-bottom: 36px !important;
+  border-bottom: 2px solid #f0f0f0 !important;
+}
+
+.tab-btn {
+  background: transparent !important;
+  color: #666 !important;
+  border: none !important;
+  border-bottom: 3px solid transparent !important;
+  padding: 16px 32px !important;
+  font-size: 1.1rem !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  border-radius: 8px 8px 0 0 !important;
+}
+
+.tab-btn.active {
+  color: #ff7e3f !important;
+  border-bottom-color: #ff7e3f !important;
+  background: #fff4ed !important;
+}
+
+.tab-btn:hover {
+  color: #ff7e3f !important;
+  background: #fff4ed !important;
+}
+
+.my-seller-message {
+  background: #d4edda !important;
+  color: #155724 !important;
+  padding: 12px 20px !important;
+  border-radius: 8px !important;
+  margin-bottom: 20px !important;
+  text-align: center !important;
+  border: 1px solid #c3e6cb !important;
+}
+
+.my-seller-table-wrapper {
+  width: 100% !important;
+  overflow-x: auto !important;
+  min-height: 500px !important;
+  background: transparent !important;
+  border-radius: 14px !important;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04) !important;
+}
+
+.my-seller-table {
+  width: 100% !important;
+  min-width: 1300px !important;
+  border-collapse: collapse !important;
+  table-layout: fixed !important;
+  background: #fff !important;
+  border-radius: 14px !important;
+  overflow: hidden !important;
+}
+
+.my-seller-table th {
+  background: linear-gradient(90deg, #ff7e3f 60%, #ff9a5c 100%) !important;
+  color: #fff !important;
+  font-weight: 600 !important;
+  font-size: 1rem !important;
+  padding: 18px 12px !important;
+  text-align: center !important;
+  border: none !important;
+  letter-spacing: 0.5px !important;
+}
+
+.my-seller-table td {
+  padding: 18px 12px !important;
+  text-align: center !important;
+  vertical-align: middle !important;
+  border-bottom: 1px solid #f0f0f0 !important;
+  font-size: 1rem !important;
+  color: #333 !important;
+}
+
+.my-seller-table tr:hover td {
+  background: #fff4ed !important;
+  transition: background 0.2s ease !important;
+}
+
+.my-seller-img-box {
+  width: 110px !important;
+  height: 110px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: #f8f9fa !important;
+  border-radius: 16px !important;
+  overflow: hidden !important;
+  margin: 0 auto !important;
+  border: 2px solid #e9ecef !important;
+  transition: transform 0.2s ease !important;
+}
+.my-seller-img-box:hover {
+  transform: scale(1.06) !important;
+}
+
+.my-seller-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-radius: 12px !important;
+  display: block !important;
+}
+
+.my-seller-status-btn {
+  border: none;
+  border-radius: 8px;
+  padding: 12px 28px;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-right: 10px;
+  margin-bottom: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+  min-width: 90px;
+  color: #fff;
+}
+
+.my-seller-edit-btn {
+  background: #3b82f6;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 28px;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-right: 10px;
+  margin-bottom: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+  min-width: 90px;
+}
+.my-seller-edit-btn:hover {
+  background: #2563eb;
+}
+
+.my-seller-del-btn {
+  background: #ef4444;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 28px;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+  min-width: 90px;
+}
+.my-seller-del-btn:hover {
+  background: #b91c1c;
+}
+
+.my-seller-orders {
+  min-height: 500px;
+}
+
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.order-card {
+  background: #fff;
+  border: 1px solid #e9ecef;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  transition: box-shadow 0.2s ease;
+}
+
+.order-card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.order-info h4 {
+  color: #ff7e3f;
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+}
+
+.order-info p {
+  color: #666;
+  margin: 4px 0;
+  font-size: 0.95rem;
+}
+
+.status-select {
+  background: #fff;
+  border: 2px solid #ff7e3f;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ff7e3f;
+  cursor: pointer;
+  outline: none;
+}
+
+.status-select:focus {
+  box-shadow: 0 0 0 3px rgba(255, 126, 63, 0.1);
+}
+
+.order-products {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.order-product-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 12px;
+}
+
+.order-product-image {
+  width: 80px !important;
+  height: 80px !important;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.order-product-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.order-product-name {
+  font-weight: 600;
+  color: #333;
+  font-size: 1.1rem;
+}
+
+.order-product-qty {
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.order-product-price {
+  color: #ff7e3f;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.order-summary {
+  text-align: right;
+  padding-top: 16px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.order-total {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #ff7e3f;
+}
+
+.my-seller-empty {
+  text-align: center !important;
+  color: #6b7280 !important;
+  padding: 80px 20px !important;
+  font-size: 1.1rem !important;
+}
+
+.loading-container {
+  text-align: center;
+  padding: 80px 20px;
+  color: #666;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 1200px) {
+  .my-seller-main {
+    max-width: 99vw !important;
+    margin: 15px auto !important;
+    padding: 24px 12px !important;
+  }
+  
+  .order-header {
+    flex-direction: column;
+    gap: 16px;
+    align-items: stretch;
+  }
+  
+  .order-product-item {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .my-seller-main {
+    margin: 10px auto !important;
+    padding: 14px 4px !important;
+    border-radius: 12px !important;
+  }
+  
+  .my-seller-title {
+    font-size: 1.8rem !important;
+  }
+  
+  .my-seller-tabs {
+    flex-direction: column;
+  }
+  
+  .tab-btn {
+    border-radius: 8px !important;
+    border: 1px solid #e9ecef !important;
+    border-bottom: 3px solid transparent !important;
+    margin-bottom: 8px;
+  }
+  
+  .tab-btn.active {
+    border-bottom-color: #ff7e3f !important;
+  }
+}
