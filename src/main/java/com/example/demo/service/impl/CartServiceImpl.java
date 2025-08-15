@@ -60,7 +60,6 @@ public class CartServiceImpl implements CartService {
                 dto.setImageUrl(imageUrl);
                 dto.setProductImage(imageUrl);
                 
-                
                 if (item.getSkuId() != null) {
                     ProductSku sku = productSkuRepository.findById(item.getSkuId()).orElse(null);
                     if (sku != null) {
@@ -248,4 +247,5 @@ public class CartServiceImpl implements CartService {
         }
     }
 }
+
 
