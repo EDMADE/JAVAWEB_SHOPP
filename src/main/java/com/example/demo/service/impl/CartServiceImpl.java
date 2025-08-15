@@ -29,7 +29,7 @@ public class CartServiceImpl implements CartService {
     private final CartItemRepository cartItemRepository;
     private final ProductRepository productRepository;
     private final ProductSkuRepository productSkuRepository;
-    private final ProductImageRepository productImageRepository; // ✅ 新增：多圖查詢
+    private final ProductImageRepository productImageRepository;
 
     @Override
     public CartResponseDTO getCart(Long userId) {
@@ -78,7 +78,6 @@ public class CartServiceImpl implements CartService {
                     System.out.println("單規格商品價格: " + product.getCurrentPrice() + ", 最終圖片: " + imageUrl);
                 }
                 
-                //計算小計
                 if (dto.getPrice() != null) {
                     BigDecimal itemTotal = dto.getPrice().multiply(new BigDecimal(dto.getQuantity()));
                     totalAmount = totalAmount.add(itemTotal);
@@ -86,7 +85,6 @@ public class CartServiceImpl implements CartService {
                 
             } else {
                 System.err.println("❌ 找不到商品 ID: " + item.getProductId());
-                // 設定預設值避免 null
                 dto.setProductName("商品不存在");
                 dto.setPrice(BigDecimal.ZERO);
                 dto.setProductImage("/uploads/default.png"); 
@@ -103,10 +101,6 @@ public class CartServiceImpl implements CartService {
         return response;
     }
 
-    /**
-     * ✅ 新增：統一的圖片取得邏輯
-     * 優先順序：product_images 第一張 -> SKU 圖片 -> 主圖 -> 預設圖
-     */
     private String getProductImageUrl(Long productId, Long skuId) {
         
         List<ProductImage> productImages = productImageRepository.findByProductIdOrderBySortOrderAsc(productId);
@@ -126,15 +120,12 @@ public class CartServiceImpl implements CartService {
                 return sku.getImageUrl();
             }
         }
-        
-        //回退到商品主圖
+
         Product product = productRepository.findById(productId).orElse(null);
         if (product != null && product.getMainImageUrl() != null && !product.getMainImageUrl().trim().isEmpty()) {
             System.out.println("使用商品主圖: " + product.getMainImageUrl());
             return product.getMainImageUrl();
         }
-        
-        //最終預設圖片
         System.out.println("使用預設圖片");
         return "/uploads/default.png";
     }
@@ -143,14 +134,11 @@ public class CartServiceImpl implements CartService {
     @Transactional
     public CartResponseDTO addToCart(Long userId, AddToCartDTO dto) {
         System.out.println("=== 加入購物車：用戶ID=" + userId + ", 商品ID=" + dto.getProductId() + ", SKU ID=" + dto.getSkuId() + ", 數量=" + dto.getQuantity() + " ===");
-        
-        //檢查商品是否存在
         Product product = productRepository.findById(dto.getProductId()).orElse(null);
         if (product == null) {
             throw new RuntimeException("商品不存在: " + dto.getProductId());
         }
         
-        //如果有 SKU，檢查 SKU 是否存在
         if (dto.getSkuId() != null) {
             ProductSku sku = productSkuRepository.findById(dto.getSkuId()).orElse(null);
             if (sku == null) {
@@ -214,7 +202,6 @@ public class CartServiceImpl implements CartService {
                 cartItemRepository.save(item);
                 System.out.println("✅ 更新商品數量: " + quantity);
             } else {
-                //數量為 0 時刪除項目
                 cartItemRepository.delete(item);
                 System.out.println("✅ 數量為 0，刪除項目");
             }
@@ -230,12 +217,9 @@ public class CartServiceImpl implements CartService {
         try {
             System.out.println("🗑️ 開始清空用戶購物車: " + userId);
             
-            //查詢用戶購物車項目數量
             List<CartItem> userCartItems = cartItemRepository.findByUserId(userId);
             int itemCount = userCartItems.size();
-            
             if (itemCount > 0) {
-                //清空購物車
                 cartItemRepository.deleteByUserId(userId);
                 System.out.println("✅ 已清空用戶購物車: " + itemCount + " 個項目");
             } else {
@@ -264,3 +248,4 @@ public class CartServiceImpl implements CartService {
         }
     }
 }
+
