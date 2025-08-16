@@ -36,31 +36,25 @@ public class AuctionService {
             Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new IllegalArgumentException("商品不存在"));
             
-            //驗證是否為競標商品
             if (product.getBidEndTime() == null) {
                 throw new IllegalStateException("此商品非競標商品");
             }
-            
             
             if (LocalDateTime.now().isAfter(product.getBidEndTime())) {
                 throw new IllegalStateException("競標已結束");
             }
             
-           
             if (product.getStatus() != Product.ProductStatus.AUCTION) {
                 throw new IllegalStateException("商品狀態不允許競標");
             }
             
-         
             User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("用戶不存在"));
             
-            //防止賣家自己出價
             if (product.getSellerId().equals(user.getUserId())) {
                 throw new IllegalStateException("賣家不能對自己的商品出價");
             }
             
-            //取得目前最高出價
             Optional<Bid> currentHighestBid = bidRepository.findHighestBidByProductId(productId);
             BigDecimal currentHighestAmount = currentHighestBid
                 .map(Bid::getAmount)
@@ -127,12 +121,11 @@ public class AuctionService {
         try {
             Product product = productRepository.findById(productId).orElse(null);
             
-            //非競標商品
+
             if (product == null || product.getBidEndTime() == null) {
                 return Map.of("isAuction", false);
             }
             
-            //取得競標相關資料
             Optional<Bid> highestBid = bidRepository.findHighestBidByProductId(productId);
             List<Bid> recentBids = bidRepository.findTop10ByProductIdOrderByBidTimeDesc(productId);
             long bidCount = bidRepository.countByProductId(productId);
@@ -145,7 +138,6 @@ public class AuctionService {
                 .map(Bid::getAmount)
                 .orElse(product.getStartPrice() != null ? product.getStartPrice() : BigDecimal.ZERO);
             
-            //組裝基本資訊
             Map<String, Object> result = new HashMap<>();
             result.put("isAuction", true);
             result.put("productId", productId);
@@ -182,11 +174,9 @@ public class AuctionService {
             
             result.put("recentBids", bidHistory);
             
-            // 計算下次最低出價金額
             BigDecimal nextMinBid = currentPrice.add(new BigDecimal("10"));
             result.put("nextMinBid", nextMinBid);
             
-            // 競標狀態描述
             if (isEnded) {
                 if (highestBid.isPresent()) {
                     result.put("statusMessage", "競標已結束，得標者為: " + 
@@ -240,7 +230,6 @@ public class AuctionService {
                 throw new IllegalStateException("此商品沒有設定直購價");
             }
             
-            //驗證用戶存在
             User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("用戶不存在"));
             
@@ -286,7 +275,6 @@ public class AuctionService {
         }
     }
     
-    //動處理過期競標
     @Transactional
     public void processExpiredAuctions() {
         try {
@@ -300,7 +288,6 @@ public class AuctionService {
             
             for (Product product : expiredAuctions) {
                 try {
-                    //更新商品狀態
                     product.setStatus(Product.ProductStatus.INACTIVE);
                     productRepository.save(product);
                     
@@ -352,12 +339,10 @@ public class AuctionService {
                     bidInfo.put("amount", bid.getAmount());
                     bidInfo.put("bidTime", bid.getBidTime());
                     
-                    //判斷是否為最高出價
                     Optional<Bid> highestBid = bidRepository.findHighestBidByProductId(bid.getProductId());
                     bidInfo.put("isHighest", highestBid.isPresent() && 
                                            highestBid.get().getBidId().equals(bid.getBidId()));
                     
-                    //競標狀態
                     if (product != null && product.getBidEndTime() != null) {
                         boolean isEnded = LocalDateTime.now().isAfter(product.getBidEndTime());
                         bidInfo.put("auctionEnded", isEnded);
