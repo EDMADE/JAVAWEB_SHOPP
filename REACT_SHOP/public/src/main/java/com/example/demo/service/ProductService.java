@@ -75,13 +75,11 @@ public class ProductService {
         }
     }
     
-    // 優化後的 createProduct
     public Product createProductWithLocalImages(ProductCreateDTO dto, List<MultipartFile> images, boolean hasSkus) {
         System.out.println("=== 開始建立商品（本機圖片儲存）===");
         
         Product product = new Product();
         
-        // 基本資料設定
         product.setSellerId(dto.getSeller_id());
         product.setName(dto.getName());
         product.setCategory(dto.getCategory());
@@ -102,14 +100,12 @@ public class ProductService {
         }
         product.setCurrentPrice(currentPrice);
         
-        // 處理庫存
         Integer stockQuantity = stringToInteger(dto.getStock_quantity());
         if (stockQuantity == null) {
             stockQuantity = 0;
         }
         product.setStockQuantity(stockQuantity);
         
-        //處理競標邏輯
         boolean isAuction = dto.getBid_end_time() != null && !dto.getBid_end_time().isEmpty();
         
         if (isAuction) {
@@ -255,7 +251,6 @@ public class ProductService {
             product.setBidEndTime(null);
         }
         
-        // 更新規格
         if (dto.getSpecifications() != null) {
             product.setSpecifications(dto.getSpecifications());
         }
@@ -368,7 +363,6 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
     
-    // 編輯商品
     @Transactional
     public Product updateProduct(Long id, ProductCreateDTO dto, List<MultipartFile> images, boolean hasSkus, String skusJson) {
         try {
@@ -376,7 +370,6 @@ public class ProductService {
             Product existingProduct = productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("商品不存在"));
             
-            //更新基本資料
             existingProduct.setName(dto.getName());
             existingProduct.setCategory(dto.getCategory());
             existingProduct.setProductCondition(dto.getProduct_condition());
@@ -385,14 +378,13 @@ public class ProductService {
             
            
             if (!hasSkus) {
-                //單一規格商品，價格庫存必填
+
                 if (dto.getCurrent_price() == null || dto.getCurrent_price().trim().isEmpty()) {
                     throw new IllegalArgumentException("價格不能為空");
                 }
                 existingProduct.setCurrentPrice(new BigDecimal(dto.getCurrent_price()));
                 existingProduct.setStockQuantity(Integer.parseInt(dto.getStock_quantity()));
             } else {
-                //多規格商品，主商品價格庫存設為 0
                 existingProduct.setCurrentPrice(BigDecimal.ZERO);
                 existingProduct.setStockQuantity(0);
             }
@@ -411,7 +403,6 @@ public class ProductService {
             
             Product savedProduct = productRepository.save(existingProduct);
             
-            //處理 SKU 更新
             if (hasSkus && skusJson != null && !skusJson.trim().isEmpty()) {
                
                 productSkuService.deleteSkusByProductId(id);
@@ -497,7 +488,6 @@ public class ProductService {
             productImageRepository.deleteByProductId(productId);
             System.out.println("✅ 舊圖片刪除完成");
             
-            //上傳新圖片
             saveProductImages(productId, newImages);
             
         } catch (Exception e) {
@@ -577,3 +567,4 @@ public class ProductService {
     }
 
 }
+
