@@ -7,8 +7,6 @@ import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-// ✅ 確保所有必要的import
 import com.example.demo.model.dto.OrderCreateDTO;
 import com.example.demo.model.dto.OrderItemDTO;
 import com.example.demo.model.entity.CartItem;
@@ -128,11 +126,9 @@ public class OrderService {
             Order savedOrder = orderRepository.save(order);
             System.out.println("✅ 訂單創建成功: " + savedOrder.getOrderId());
             
-            //創建訂單項目並扣減庫存
             for (OrderItemDTO itemDto : orderItems) {
                 Product product = productRepository.findById(itemDto.getProductId()).get();
                 
-                // 創建訂單項目
                 OrderItem orderItem = new OrderItem();
                 orderItem.setOrderId(savedOrder.getOrderId());
                 orderItem.setProductId(product.getProductId());
@@ -165,7 +161,6 @@ public class OrderService {
                                      ", 剩餘庫存: " + newStock);
                 }
                 
-                //發送賣家通知
                 try {
                     User seller = userRepository.findById(product.getSellerId()).orElse(null);
                     if (seller != null && Boolean.TRUE.equals(seller.getEmailVerified())) {
@@ -178,7 +173,6 @@ public class OrderService {
                 }
             }
             
-            //清空該用戶的購物車
             try {
                 List<CartItem> userCartItems = cartItemRepository.findByUserId(buyer.getUserId());
                 if (!userCartItems.isEmpty()) {
@@ -190,7 +184,7 @@ public class OrderService {
                 
             }
             
-            //發送買家確認信
+
             try {
                 if (Boolean.TRUE.equals(buyer.getEmailVerified())) {
                     emailService.sendOrderConfirmation(buyer, savedOrder, orderItems);
@@ -237,7 +231,6 @@ public class OrderService {
                 }
             }
             
-            //更新訂單狀態
             order.setStatus("CANCELLED");
             orderRepository.save(order);
             
